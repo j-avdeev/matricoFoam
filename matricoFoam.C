@@ -151,9 +151,7 @@ int main(int argc, char *argv[])
             	    {
             		int w=ptch.faceCells()[J];
             		A[w][w]+=pEqn.internalCoeffs()[I][J];
-// 			Ar(w,w)+=pEqn.internalCoeffs()[I][J];
             		b[w]   +=pEqn.boundaryCoeffs()[I][J];
-// 			br(w) +=pEqn.boundaryCoeffs()[I][J];
             	    }
                 
                 }
@@ -207,7 +205,6 @@ int main(int argc, char *argv[])
                 {
 		  for (int j=0; j<p.size(); j++)
 		  {
-// 		    Info << A(i,j) << " ";
 		    Info << A[i][j] << " ";
 		  }
 		  Info << nl << endl;
