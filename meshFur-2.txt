@@ -1,0 +1,46 @@
+//g++ countFur-2.c -o countFur-2
+#include <iostream>
+#include <fstream>
+#include <vector>
+#include <stdlib.h>
+#include <math.h>
+#include <stdio.h>
+#include <string.h>
+using namespace std;
+#define ROWS 10
+int main()
+{
+   ifstream myfile;
+   string buf;
+   
+   myfile.open("1111.dat");
+   if(!myfile) return -1;
+//    while(myfile)
+   if(!myfile.eof())
+   {
+      double li0;
+      double sumDiag = 0;
+      double sumQuad = 0;
+      char * pEnd;
+    
+     for(int i=0;i<ROWS;i++){
+		getline(myfile,buf); // string from file to buf
+		li0 = strtod (&buf[0], &pEnd);  // first number in line
+		for(int j=0; j<ROWS; j++){
+			cout<<"li0 = "<< li0<< endl;
+			//  cout<<"li"<< j << " = " << li0<< endl;
+			if (j == i){ // is element diagonal?
+				sumDiag+=li0;
+			}
+			sumQuad+=li0*li0;
+			li0 = strtod (pEnd, &pEnd);
+			//cout<<sumQuad<< endl;
+		}
+     }
+     li0 = strtod (pEnd, NULL);  // end of line?
+      cout<<"sumDiag = "<< sumDiag << endl;
+      cout<<"sumQuad = "<< sumQuad << endl;      
+      cout << "F = (SumDiag)^2 / SumQuad = " << sumDiag*sumDiag/sumQuad << endl;
+   }
+   return 0;
+}
