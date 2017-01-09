@@ -34,8 +34,6 @@ Description
 #include "OFstream.H"
 
 #include "complex.H"
-// #include "simpleMatrix.H"
-// #include <armadillo>
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
@@ -111,22 +109,12 @@ int main(int argc, char *argv[])
             	    b[i] = 0.0;
                 }
                 
-//                 arma::mat Ar = arma::zeros<arma::mat>(p.size(),p.size());
-// 		arma::mat br = arma::zeros<arma::mat>(1,p.size());
 		
-                forAll(p,i)//for (int i = 0; i<=p.size(); i++) //forAll(A,i)
+                forAll(p,i)					//for (int i = 0; i<=p.size(); i++) //forAll(A,i)
                 {
             	    A[i][i] = pEqn.diag()[i];				// inserting diagonal elements in A
-//             	    Ar(i,i) = pEqn.diag()[i];
             	    b[i]    = pEqn.source()[i];				// and in b
-//                     br(i) = pEqn.source()[i];
-// 		    Info<< "abs(pEqn.diag()[i]) = " << abs(pEqn.diag()[i]) << nl << endl;
-// 		    forAll(p,j)
-// 		    {
-// 		      if(pEqn.diag()[i]>0 && pEqn.diag()[j]>0)
-// 			upSum += pEqn.upper()[i] / sqrt(float(pEqn.diag()[i]))*sqrt(float(pEqn.diag()[j]));
-// 		    }
-// 		    downSum += pEqn.diag()[i]*pEqn.diag()[i];
+
 		}
                 
                 const lduAddressing& addr = pEqn.lduAddr();
@@ -136,12 +124,8 @@ int main(int argc, char *argv[])
                 forAll(lowerAddr, i)
                 {
             	    A[lowerAddr[i]][upperAddr[i]] = pEqn.upper()[i];
-// 		    Ar(lowerAddr[i],upperAddr[i]) = pEqn.upper()[i];
-
             	    A[upperAddr[i]][lowerAddr[i]] = pEqn.lower()[i];
-// 		    Ar(upperAddr[i],lowerAddr[i]) = pEqn.lower()[i];
-// 		    downSum += pEqn.upper()[i]*pEqn.upper()[i];
-// 		    downSum += pEqn.lower()[i]*pEqn.lower()[i];
+
                 }
                 
                 forAll(p.boundaryField(),I)
@@ -156,49 +140,6 @@ int main(int argc, char *argv[])
                 
                 }
                 
-//                 arma::mat D = arma::zeros<arma::mat>(Ar.n_rows,Ar.n_cols); // = pow(Ar%Eye,-0.5); //CHIT!!
-// 		arma::mat Asqr = pow(abs(Ar),0.5); // CHIT!
-// 		for (int i=0; i<p.size(); i++) // forAll(A,i)
-//                 {
-// 		  for (int j=0; j<p.size(); j++)
-// 		  {
-// 		    if (i==j)
-// 		    {
-// 		      if (Asqr(i,j)==0)
-// 		      {
-// 			Info << "Asqr(i,j)==0 !!!" << nl << endl;
-// 		      }
-// 		      else
-// 		      {
-// 			D(i,j)= 1/Asqr(i,j);
-// 		      }
-// 		    }
-// 		  }
-// 		}
-// 		
-// 		arma::mat Arrr = D*Ar*D;
-// 		
-// 		upSum = 0;
-// 		for (int i=0; i<p.size(); i++) // forAll(A,i)
-//                 {
-// 		  for (int j=0; j<p.size(); j++)
-// 		  {
-// 		    if (i==j)
-// 		    {
-// 		      upSum += Arrr(i,j);
-// 		      Info << "Arr("<< i << "," << j << ")" << Arrr(i,j) << endl;
-// 		      Info << "D("<< i << "," << j << ")" << D(i,j) << endl;
-// 		    }
-// 		    else
-// 		    {
-// 		      if (Arrr(i,j)>0 || Arrr(i,j)<0)
-// 		      {
-// 			downSum += Arrr(i,j);
-// 		        Info << "downSum = " << downSum << nl << endl;
-// 		      }
-// 		    }
-// 		  }
-// 		}
 		
 		Info << "=== A(i,j) ===" << nl << endl;
 		for (int i=0; i<p.size(); i++) // forAll(A,i)
@@ -215,58 +156,10 @@ int main(int argc, char *argv[])
 		Info << "=== b(i,j) ===" << nl << endl;
 		for (int i=0; i<p.size(); i++) // forAll(A,i)
                 {
-// 		  for (int j=0; j<psi.size(); j++)
-// 		  {
-// 		    Info << b(i,0) << " ";
-		    Info << b[i] << " ";
-// 		  }
+		  Info << b[i] << " ";
 		  Info << nl << endl;
 		  
-		}
-//                 scalar x = arma::det(Ar);
-// 		Info << "det(Ar)" <<nl<<x<<nl<<endl;
-// 		arma::Col<std::complex<double> > eig = arma::eig_gen(Ar);
-// 		scalar minEig = min(eig).real();
-// 		scalar maxEig = max(eig).real();
-// 		
-// 		if (min(eig).imag()==0 && max(eig).imag()==0)
-// 		  Info << "Imaginary parts of minEig and maxEig are zeros" << nl << endl;
-// 		Info << "minEig" << nl<< minEig <<nl<<endl;
-// 		Info << "maxEig" << nl<< maxEig <<nl<<endl;
-// 		Info << "Cond^-1" << nl<< minEig/maxEig <<nl<<endl;
-// 		F = upSum*upSum/downSum;
-// 		Info << "upSum=" << upSum << nl << endl;
-// 		Info << "downSum=" << downSum << nl << endl;
-// 		Info << "F=" << F << nl << endl;
-		
-//Info << "A=" <<nl<<A<<nl<<endl;
-//Info << "b=" <<nl<<b<<nl<<endl;
-                
-/*				OFstream fileA("mA.txt");
-				fileA.precision(18);
-				forAll(A,i)
-				{
-					if (i!=0)
-					fileA << endl;
-					forAll(A[i],j)
-					{
-						if (j!=0)
-							fileA<<" ";
-						fileA<<A[i][j];
-					}
-
-				}              
-				//fileA.close();
-
-				OFstream fileb("mb.txt");
-				fileb.precision(18);
-				forAll(b,i)
-				{
-					if (i!=0)
-					fileb << " ";
-					fileb << pEqn.source()[i];
-					//					fileb << b[i]; 
-				}*/              
+		}            
 
 		
 //-----------------------------------------------------------------
